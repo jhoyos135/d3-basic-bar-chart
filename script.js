@@ -3,6 +3,8 @@ let myData = [150,125,250,440,500,250,300,650, 410, 250, 720, 400];
 
 let height = 600;
 let width = 400;
+let animateDuration = 700;
+let animateDelay = 30;
 
 let tooltip = d3.select('#chart').append('div')
   .style('position','absolute')
@@ -25,7 +27,7 @@ let colors = d3.scale.linear()
 .range(['#429ef4', '#c9304c']);
 
 
-d3.select('#chart').append('svg')
+const myBarchart = d3.select('#chart').append('svg')
 .attr('width', width)
 .attr('height', height)
 .selectAll('rect')
@@ -35,15 +37,11 @@ d3.select('#chart').append('svg')
       return colors(i);
     })
     .attr('width', xScale.rangeBand())
-    .attr('height', (d) => {
-      return yScale(d);
-    })
+    .attr('height', 0)
     .attr('x', (d, i) => {
       return xScale(i);
     })
-    .attr('y', (d) => {
-      return height - yScale(d);
-    })
+    .attr('y', height)
 
     .on('mouseover', (d) => {
       tooltip.transition()
@@ -59,4 +57,17 @@ d3.select('#chart').append('svg')
       tooltip.transition()
         .style('opacity', 0);
         d3.select(this).style('opacity', 1);
-    });
+    })
+
+    myBarchart.transition()
+    .attr('height', function(d){
+      return yScale(d);
+    })
+    .attr('y', function(d){
+      return height - yScale(d)
+    })
+    .duration(animateDuration)
+    .delay(function(d, i){
+      return i * animateDelay;
+    })
+    .ease('elastic');
