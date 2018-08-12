@@ -1,5 +1,4 @@
-// d3 chart
-// let myData = [150,125,250,440,500,250,300,650,410,250,820,400];
+// d3 version 3 bar chart
   const myData = [];
   const dataCount = 30;
 
@@ -132,3 +131,5 @@ const myBarchart = d3.select('#chart').append('svg')
         .style('stroke', '#000');
       hGuide.selectAll('line')
         .style('stroke', '#000');
+
+
